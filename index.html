@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Tự Học Tiếng Nhật N5</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  .jp { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif; }
+</style>
+<style>
+  :root {
+    --red: #c0392b;
+    --red-dark: #96281b;
+    --ink: #1a1a2e;
+    --ink-light: #2c3e50;
+    --gold: #f39c12;
+    --green: #27ae60;
+    --blue: #2980b9;
+    --purple: #8e44ad;
+    --bg: #f5f0e8;
+    --card-bg: #fff;
+    --border: #ddd;
+    --text-muted: #7f8c8d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    color: var(--ink);
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+    color: white;
+    text-align: center;
+    padding: 18px 16px 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  .header h1 {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+  }
+  .header p { font-size: 0.78rem; opacity: 0.85; margin-top: 3px; }
+
+  .container { max-width: 480px; margin: 0 auto; padding: 16px 14px 100px; }
+
+  /* MODE TOGGLE */
+  .mode-bar {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .mode-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .mode-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .mode-btn {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
+    background: #f0f0f0;
+    color: var(--text-muted);
+  }
+  .mode-btn.active-mode {
+    background: var(--ink);
+    color: white;
+    border-color: var(--ink);
+  }
+  .mode-btn:active { transform: scale(0.95); }
+
+  /* START BOX */
+  .start-box {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .start-box label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-light);
+    white-space: nowrap;
+  }
+  .start-box input[type=number] {
+    width: 70px;
+    padding: 7px 10px;
+    border: 2px solid var(--blue);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--blue);
+    text-align: center;
+    outline: none;
+  }
+  .btn-start {
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .1s, background .2s;
+  }
+  .btn-start:active { transform: scale(0.96); background: #219150; }
+  .progress-text {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* FLASHCARD */
+  .flashcard {
+    background: var(--card-bg);
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+
+  /* Normal mode */
+  .card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .card-box {
+    padding: 20px 14px 16px;
+    text-align: center;
+  }
+  .card-box:first-child { border-right: 1px solid #f0f0f0; }
+  .card-box .label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: 0.55;
+  }
+  .kanji-display {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.1;
+    min-height: 52px;
+  }
+  .hiragana-display {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    font-size: 1.4rem;
+    color: var(--green);
+    font-weight: 700;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .meaning-box {
+    padding: 18px 20px;
+    text-align: center;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
+  }
+  .meaning-text {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--purple);
+  }
+  .meaning-hidden { color: #ccc; font-style: italic; font-weight: 400; font-size: 0.95rem; }
+
+  /* CHECK MODE */
+  .check-card-area {
+    display: none;
+  }
+  .check-hint-box {
+    padding: 20px 18px 16px;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .check-hint-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 8px;
+  }
+  .check-hint-value {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    min-height: 48px;
+    line-height: 1.15;
+  }
+  .check-hint-value.vi-hint {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1.3rem;
+    color: var(--purple);
+  }
+
+  .check-input-area {
+    padding: 16px 18px 14px;
+    background: #fafafa;
+  }
+  .check-input-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    opacity: 0.5;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .check-input-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .check-input-row input[type=text] {
+    flex: 1;
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    font-size: 1.1rem;
+    padding: 10px 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color .2s;
+    color: var(--ink);
+  }
+  .check-input-row input[type=text]:focus { border-color: var(--blue); }
+  .check-result {
+    font-size: 1.3rem;
+    font-weight: 700;
+    min-width: 36px;
+    text-align: center;
+    transition: all .2s;
+  }
+  .result-true { color: var(--green); }
+  .result-false { color: var(--red); }
+  .result-blank { color: #ccc; }
+
+  .check-answer-reveal {
+    padding: 10px 18px 14px;
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .check-answer-reveal .answer-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .check-answer-reveal .answer-value {
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  /* BUTTONS */
+  .btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .btn {
+    border: none;
+    border-radius: 12px;
+    padding: 14px 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .1s, filter .2s;
+    letter-spacing: 0.5px;
+  }
+  .btn:active { transform: scale(0.95); filter: brightness(0.9); }
+  .btn-prev { background: linear-gradient(135deg, #636e72, #2d3436); color: white; }
+  .btn-answer { background: linear-gradient(135deg, var(--gold), #e67e22); color: white; }
+  .btn-next { background: linear-gradient(135deg, var(--blue), #1a6ea8); color: white; }
+
+  /* LOG TABLE */
+  .log-section {
+    background: var(--card-bg);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+  .log-header {
+    background: linear-gradient(135deg, var(--red), var(--red-dark));
+    color: white;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .log-header span { font-size: 0.9rem; font-weight: 700; letter-spacing: 0.5px; }
+  .log-header-right { display: flex; align-items: center; gap: 8px; }
+  .log-count {
+    background: rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+  .log-arrow { font-size: 0.75rem; opacity: 0.85; transition: transform .25s; }
+  .log-arrow.open { transform: rotate(180deg); }
+  .log-body { display: none; }
+  .log-body.open { display: block; }
+
+  .log-table { width: 100%; border-collapse: collapse; }
+  .log-table thead th {
+    background: #2c3e50;
+    color: white;
+    font-size: 0.72rem;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .log-table tbody tr:nth-child(even) { background: #f8f9fa; }
+  .log-table tbody tr:nth-child(odd) { background: white; }
+  .log-table td {
+    padding: 9px 10px;
+    font-size: 0.82rem;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+  }
+  .td-kanji { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif; font-size: 1.1rem; font-weight: 700; }
+  .td-hira { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif; color: var(--green); font-size: 0.85rem; }
+  .td-no { font-weight: 700; color: var(--text-muted); font-size: 0.75rem; text-align: center; }
+
+  .log-empty {
+    padding: 24px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+
+  /* DATA SECTION */
+  .data-section {
+    margin-top: 16px;
+    background: var(--card-bg);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    overflow: hidden;
+  }
+  .data-header {
+    background: #2c3e50;
+    color: white;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.88rem;
+    font-weight: 600;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .data-body { display: none; }
+  .data-body.open { display: block; }
+
+  .tab-row {
+    display: flex;
+    border-bottom: 2px solid #f0f0f0;
+    background: #f8f9fa;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px 8px;
+    border: none;
+    background: transparent;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: color .2s, border-color .2s;
+  }
+  .tab-btn.active { color: #2c3e50; border-bottom-color: #2c3e50; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .vocab-table { width: 100%; border-collapse: collapse; }
+  .vocab-table thead th {
+    background: #34495e;
+    color: white;
+    font-size: 0.7rem;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .vocab-table tbody tr {
+    cursor: pointer;
+    transition: background .15s;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .vocab-table tbody tr:nth-child(even) { background: #f8f9fa; }
+  .vocab-table tbody tr:nth-child(odd) { background: white; }
+  .vocab-table tbody tr:hover { background: #eaf4ff; }
+  .vocab-table tbody tr.current-row { background: #d6eaf8 !important; }
+  .vocab-table td { padding: 9px 10px; font-size: 0.82rem; vertical-align: middle; }
+  .vt-no { font-weight: 700; color: var(--text-muted); font-size: 0.72rem; text-align: center; width: 32px; }
+  .vt-kanji { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif; font-size: 1.15rem; font-weight: 700; }
+  .vt-hira { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif; color: var(--green); font-size: 0.82rem; }
+  .vt-meaning { color: var(--purple); font-weight: 600; font-size: 0.82rem; }
+  .vocab-scroll { max-height: 380px; overflow-y: auto; }
+
+  .edit-panel-inner { padding: 14px; }
+  .edit-panel-inner p { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; }
+  .edit-panel-inner textarea {
+    width: 100%;
+    min-height: 160px;
+    font-size: 0.8rem;
+    font-family: monospace;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    resize: vertical;
+    line-height: 1.6;
+  }
+  .btn-load {
+    margin-top: 8px;
+    background: var(--ink);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+  }
+  .btn-load:active { background: #111; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: transform .3s ease;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1> TỰ HỌC TIẾNG NHẬT</h1>
+  <p>Made For Nhi (N5)</p>
+</div>
+
+<div class="container">
+
+  <!-- Mode bar -->
+  <div class="mode-bar">
+    <span class="mode-label">Chế độ:</span>
+    <div class="mode-btns">
+      <button class="mode-btn active-mode" onclick="setMode('normal')">📖 Học</button>
+      <button class="mode-btn" onclick="setMode('kanji')">Kanzi → Hira</button>
+      <button class="mode-btn" onclick="setMode('viet')">VN → Hira</button>
+    </div>
+  </div>
+
+  <!-- Start box -->
+  <div class="start-box">
+    <label>Bắt đầu từ số:</label>
+    <input type="number" id="startInput" value="1" min="1">
+    <button class="btn-start" onclick="startFromIndex()">▶ START</button>
+    <span class="progress-text" id="progressText">0 / 0</span>
+  </div>
+
+  <!-- Flashcard -->
+  <div class="flashcard">
+
+    <!-- Normal mode layout -->
+    <div id="normalCardArea">
+      <div class="card-row">
+        <div class="card-box">
+          <div class="label">漢字 · Kanji</div>
+          <div class="kanji-display" id="kanjiDisplay">—</div>
+        </div>
+        <div class="card-box">
+          <div class="label">ひらがな · Hiragana</div>
+          <div class="hiragana-display" id="hiraDisplay">—</div>
+        </div>
+      </div>
+      <div class="meaning-box">
+        <div class="meaning-text meaning-hidden" id="meaningDisplay">Nhấn "Đáp Án" để xem nghĩa ❓</div>
+      </div>
+    </div>
+
+    <!-- Check mode layout -->
+    <div class="check-card-area" id="checkCardArea">
+      <div class="check-hint-box">
+        <div class="check-hint-label" id="checkHintLabel">漢字 · Kanji</div>
+        <div class="check-hint-value" id="checkHintValue">—</div>
+      </div>
+      <div class="check-input-area">
+        <div class="check-input-label">Nhập Hiragana của bạn:</div>
+        <div class="check-input-row">
+          <input type="text" id="checkInput" placeholder="ひらがな..." oninput="checkAnswer()" autocomplete="off" autocorrect="off" spellcheck="false">
+          <span class="check-result result-blank" id="checkResult">—</span>
+        </div>
+      </div>
+      <div class="check-answer-reveal" id="checkAnswerReveal">
+        <span class="answer-label">Đáp án:</span>
+        <span class="answer-value" id="checkAnswerValue">—</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Buttons -->
+  <div class="btn-row">
+    <button class="btn btn-prev" onclick="prevCard()">◀ TRƯỚC</button>
+    <button class="btn btn-answer" onclick="showAnswer()" id="answerBtn">💡 ĐÁP ÁN</button>
+    <button class="btn btn-next" onclick="nextCard()">TIẾP ▶</button>
+  </div>
+
+  <!-- Log -->
+  <div class="log-section">
+    <div class="log-header" onclick="toggleLog()">
+      <span>📋 Từ đã xem đáp án</span>
+      <div class="log-header-right">
+        <span class="log-count" id="logCount">0 từ</span>
+        <span class="log-arrow" id="logArrow">▼</span>
+      </div>
+    </div>
+    <div class="log-body" id="logBody">
+      <div id="logTableWrap">
+        <div class="log-empty">Chưa có từ nào — nhấn Đáp Án để ghi lại 👆</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vocab list section -->
+  <div class="data-section">
+    <div class="data-header" onclick="toggleData()">
+      📚 Danh sách từ vựng <span id="dataArrow">▼</span>
+    </div>
+    <div class="data-body" id="dataBody">
+      <div class="tab-row">
+        <button class="tab-btn active" id="tab1" onclick="switchTab('vocab')">📖 Bảng học</button>
+        <button class="tab-btn" id="tab2" onclick="switchTab('edit')">✏️ Chỉnh sửa</button>
+      </div>
+      <div class="tab-panel active" id="panelVocab">
+        <div class="vocab-scroll">
+          <table class="vocab-table">
+            <thead>
+              <tr>
+                <th class="vt-no">STT</th>
+                <th>Kanji</th>
+                <th>Hiragana</th>
+                <th>Nghĩa tiếng Việt</th>
+              </tr>
+            </thead>
+            <tbody id="vocabTableBody"></tbody>
+          </table>
+        </div>
+        <p style="font-size:0.72rem;color:var(--text-muted);padding:8px 12px;text-align:center">👆 Nhấn vào dòng bất kỳ để nhảy đến từ đó</p>
+      </div>
+      <div class="tab-panel" id="panelEdit">
+        <div class="edit-panel-inner">
+          <p>Mỗi dòng: <b>số|kanji|hiragana|nghĩa tiếng Việt</b> (ngăn cách bằng dấu |)</p>
+          <textarea id="dataInput"></textarea>
+          <button class="btn-load" onclick="loadData()">💾 Tải dữ liệu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+
+<script type="application/json" id="vocabData">
+[[1, "朝", "あさ", "buổi sáng"], [2, "朝ご飯", "あさごはん", "bữa ăn sáng"], [3, "", "あさって", "ngày kia"], [4, "足", "あし", "chân"], [5, "明日", "あした", "ngày mai"], [6, "", "これ", "cái này"], [7, "", "それ", "cái đó"], [8, "", "あれ", "cái kia"], [9, "", "ここ", "chỗ này"], [10, "", "そこ", "chỗ đó"], [11, "", "あそこ", "Chỗ kia, đằng kia"], [12, "", "こちら", "phía này"], [13, "", "そちら", "phía đó"], [14, "", "あちら", "phía kia"], [15, "春", "はる", "mùa xuân"], [16, "夏", "なつ", "mùa hạ"], [17, "秋", "あき", "mùa thu"], [18, "冬", "ふゆ", "mùa đông"], [19, "頭", "あたま", "đầu"], [20, "", "あなた", "bạn"], [21, "兄", "あに", "Anh trai ( mình)"], [22, "姉", "あね", "Chị gái( mình)"], [23, "", "アパート", "căn hộ"], [24, "雨", "あめ", "mưa"], [25, "飴", "あめ", "kẹo ( ngậm)"], [26, "家", "いえ", "nhà"], [27, "池", "いけ", "cái ao"], [28, "医者", "いしゃ", "bác sĩ"], [29, "椅子", "いす", "ghế"], [30, "一", "いち", "một"], [31, "一日", "いちにち,ついたち", "Một ngày, ngày mồng 1"], [32, "二日", "ふつか", "2 ngày, ngày mồng 2"], [33, "三日", "みっか", "3 ngày, ngày mồng 3"], [34, "四日", "よっか", "4 ngày, ngày mồng 4"], [35, "五日", "いつか", "năm ngày, ngày mồng 5"], [36, "六日", "むいか", "6 ngày, ngày mồng 6"], [37, "七日", "なのか", "7 ngày, ngày mồng 7"], [38, "八日", "ようか", "8 ngày, ngày mồng 8"], [39, "九日", "ここのか", "9 ngày, ngày mồng 9"], [40, "十日", "とおか", "10 ngày, ngày mồng 10"], [41, "五つ", "いつつ", "năm cái ( đếm đồ vật nói chung)"], [42, "犬", "いぬ", "con chó"], [43, "今", "いま", "bây giờ"], [44, "意味", "いみ", "ý nghĩa"], [45, "妹", "いもうと", "em gái ( mình)"], [46, "入口", "いりぐち", "lối vào"], [47, "色", "いろ", "màu"], [48, "上", "うえ", "trên"], [49, "後ろ", "うしろ", "đằng sau"], [50, "歌", "うた", "bài hát"], [51, "海", "うみ", "biển"], [52, "上着", "うわぎ", "áo khoác"], [53, "絵", "え", "bức tranh"], [54, "映画", "えいが", "phim (điện ảnh)"], [55, "映画館", "えいがかん", "rạp chiếu phim"], [56, "英語", "えいご", "Tiếng Anh"], [57, "駅", "えき", "nhà ga"], [58, "", "エレベーター", "thang máy"], [59, "鉛筆", "えんぴつ", "bút chì"], [60, "大勢", "おおぜい", "Nhiều ( người)"], [61, "お母さん", "おかあさん", "Mẹ ( khi nói về mẹ người khác)"], [62, "お菓子", "おかし", "Bánh, kẹo"], [63, "お金", "おかね", "tiền"], [64, "奥さん", "おくさん", "vợ ( khi nói về vợ người khác)"], [65, "お酒", "おさけ", "rượu,"], [66, "お皿", "おさら", "Cái đĩa"], [67, "", "おじいさん", "ông ( nội, ngoại), ông già"], [68, "", "おじさん", "chú, bác ( người đàn ông trung niên)"], [69, "お茶", "おちゃ", "trà"], [70, "お手洗い", "おてあらい", "nhà vệ sinh"], [71, "お父さん", "おとうさん", "bố( dùng để nói về bố người khác)"], [72, "弟", "おとうと", "em trai ( mình)"], [73, "男", "おとこ", "nam giới, con trai"], [74, "男の子", "おとこのこ", "bé trai"], [75, "一昨日", "おととい", "hôm kia"], [76, "一昨年", "おととし", "Năm kia"], [77, "大人", "おとな", "người lớn"], [78, "", "おなか", "bụng"], [79, "同じ", "おなじ", "giống nhau"], [80, "お兄さん", "おにいさん", "anh trai( người khác)"], [81, "お姉さん", "おねえさん", "chị gái( người khác)"], [82, "", "おばあさん", "bà ( nội, ngoại), bà già"], [83, "", "おばさん", "Cô, dì"], [84, "お風呂", "おふろ", "Bồn tắm"], [85, "お弁当", "おべんとう", "cơm hộp"], [86, "", "おまわりさん", "cảnh sát"], [87, "音楽", "おんがく", "âm nhạc"], [88, "女の子", "おんなのこ", "bé gái"], [89, "外国", "がいこく", "nước ngoài"], [90, "外国人", "がいこくじん", "người nước ngoài"], [91, "会社", "かいしゃ", "Công ty"], [92, "階段", "かいだん", "Cầu thang"], [93, "買い物", "かいもの", "mua sắm"], [94, "", "かぎ", "chìa khóa"], [95, "学生", "がくせい", "học sinh, sinh viên"], [96, "傘", "かさ", "cái ô"], [97, "風", "かぜ", "gió"], [98, "風邪", "かぜ", "cảm, cúm"], [99, "家族", "かぞく", "Gia đình"], [100, "方", "かた", "vị, người ( cách nói lịch sự của 人） , cách (làm việc gì đó)"], [101, "学校", "がっこう", "trường học"], [102, "", "カップ", "Cốc ( có tay cầm)"], [103, "", "コップ", "Cốc ( không quai)"], [104, "家庭", "かてい", "gia đình"], [105, "角", "かど", "góc ( bàn,cua, quẹo)"], [106, "", "かばん", "cặp, túi sách"], [107, "花瓶", "かびん", "bình hoa, lọ hoa"], [108, "紙", "かみ", "giấy"], [109, "", "カメラ", "máy ảnh"], [110, "火曜日", "かようび", "Thứ ba"], [111, "", "カレー", "Cà ri"], [112, "", "カレンダー", "tờ lịch"], [113, "川", "かわ", "sông"], [114, "漢字", "かんじ", "chữ hán"], [115, "木", "き", "cây, gỗ"], [116, "黄色", "きいろ", "màu vàng"], [117, "北", "きた", "phía Bắc"], [118, "", "ギター", "Guitar"], [119, "喫茶店", "きっさてん", "quán giải khát"], [120, "切手", "きって", "tem"], [121, "切符", "きっぷ", "vé (tàu, xe)"], [122, "昨日", "きのう", "Hôm qua"], [123, "牛肉", "ぎゅうにく", "thịt bò"], [124, "牛乳", "ぎゅうにゅう", "sữa( bò)"], [125, "今日", "きょう", "Hôm nay"], [126, "教室", "きょうしつ", "phòng học, lớp học"], [127, "兄弟", "きょうだい", "anh chị em"], [128, "去年", "きょねん", "năm ngoái"], [129, "", "キロ/キログラム", "kg"], [130, "", "キロ/キロメートル", "km"], [131, "銀行", "ぎんこう", "Ngân hàng"], [132, "金曜日", "きんようび", "Thứ sáu"], [133, "薬", "くすり", "thuốc"], [134, "果物", "くだもの", "hoa quả, trái cây"], [135, "口", "くち", "miệng"], [136, "靴", "くつ", "giày dép"], [137, "靴下", "くつした", "cái tất"], [138, "国", "くに", "đất nước"], [139, "曇り", "くもり", "có mây, nhiều mây"], [140, "", "クラス", "lớp học"], [141, "", "グラム", "gram"], [142, "車", "くるま", "xe hơi, xe"], [143, "黒", "くろ", "đen, màu đen"], [144, "警官", "けいかん", "cảnh sát"], [145, "今朝", "けさ", "sáng nay"], [146, "結婚", "けっこん", "kết hôn"], [147, "月曜日", "げつようび", "thứ hai"], [148, "玄関", "げんかん", "lối đi vào"], [149, "公園", "こうえん", "công viên"], [150, "交差点", "こうさてん", "ngã tư"], [151, "紅茶", "こうちゃ", "trà đen"], [152, "交番", "こうばん", "bốt, trạm cảnh sát"], [153, "声", "こえ", "tiếng, giọng nói"], [154, "", "コート", "áo khoác"], [155, "", "コーヒー", "cà phê"], [156, "午後", "ごご", "buổi chiều"], [157, "九つ", "ここのつ", "9 cái ( vật nói chung)"], [158, "午前", "ごぜん", "buổi sáng"], [159, "", "こっち", "phía này ( cách nói ngắn gọn của こちら）"], [160, "", "コップ", "Cốc ( không quai)"], [161, "今年", "ことし", "năm nay"], [162, "言葉", "ことば", "từ, từ vựng"], [163, "子供", "こども", "trẻ em, con cái"], [164, "御飯", "ごはん", "cơm, bữa ăn"], [165, "", "これ", "cái này"], [166, "今月", "こんげつ", "tháng này"], [167, "今週", "こんしゅう", "tuần này"], [168, "", "こんな", "như thế này"], [169, "今晩", "こんばん", "tối nay"], [170, "財布", "さいふ", "cái ví"], [171, "魚", "さかな", "cá"], [172, "作文", "さくぶん", "làm văn"], [173, "雑誌", "ざっし", "tạp chí"], [174, "砂糖", "さとう", "đường"], [175, "再来年", "さらいねん", "năm sau nữa"], [176, "三", "さん", "ba"], [177, "四", "し / よん", "bốn"], [178, "塩", "しお", "muối"], [179, "時間", "じかん", "Thời gian"], [180, "仕事", "しごと", "công việc"], [181, "辞書", "じしょ", "từ điển"], [182, "下", "した", "dưới"], [183, "七", "しち / なな", "bảy"], [184, "質問", "しつもん", "Câu hỏi"], [185, "自転車", "じてんしゃ", "xe đạp"], [186, "自動車", "じどうしゃ", "ô tô, xe hơi"], [187, "自分", "じぶん", "bản thân, tự mình"], [188, "写真", "しゃしん", "ảnh"], [189, "", "シャツ", "áo sơ mi"], [190, "", "シャワー", "vòi hoa sen"], [191, "十", "じゅう", "mười"], [192, "授業", "じゅぎょう", "giờ học"], [193, "宿題", "しゅくだい", "bài tập về nhà"], [194, "", "しょうゆ", "xì dầu"], [195, "食堂", "しょくどう", "phòng ăn, nhà ăn"], [196, "新聞", "しんぶん", "báo"], [197, "水曜日", "すいようび", "Thứ tư"], [198, "", "スカート", "váy ngắn"], [199, "", "ストーブ", "lò sưởi"], [200, "", "スプーン", "cái thìa"], [201, "", "スポーツ", "Thể thao"], [202, "", "ズボン", "quần"], [203, "背", "せ", "lưng"], [204, "生徒", "せいと", "học sinh"], [205, "", "セーター", "áo len"], [206, "", "せっけん", "xà bông"], [207, "", "ゼロ", "số 0"], [208, "千", "せん", "nghìn"], [209, "先月", "せんげつ", "tháng trước"], [210, "先週", "せんしゅう", "tuần trước"], [211, "先生", "せんせい", "giáo viên, bác sĩ"], [212, "洗濯", "せんたく", "việc giặt giũ"], [213, "掃除", "そうじ", "dọn dẹp"], [214, "", "そこ", "chỗ đó"], [215, "", "そちら", "phía đó"], [216, "", "そっち", "phía đó ( thể thông thường của そちら)"], [217, "外", "そと", "ngoài"], [218, "", "そば", "gần, bên cạnh"], [219, "空", "そら", "bầu trời"], [220, "", "それ", "cái đó"], [221, "大学", "だいがく", "đại học"], [222, "大使館", "たいしかん", "Đại sứ quán"], [223, "台所", "だいどころ", "nhà bếp"], [224, "", "タクシー", "xe taxi"], [225, "建物", "たてもの", "tòa nhà"], [226, "食べ物", "たべもの", "đồ ăn"], [227, "卵", "たまご", "trứng"], [228, "誕生日", "たんじょうび", "sinh nhật"], [229, "地下鉄", "ちかてつ", "tàu điện ngầm"], [230, "地図", "ちず", "Bản đồ"], [231, "茶色", "ちゃいろ", "màu nâu( màu trà)"], [232, "", "ちゃわん", "cái bát"], [233, "一日", "ついたち", "ngày mồng 1"], [234, "机", "つくえ", "bàn"], [235, "手", "て", "tay"], [236, "", "テーブル", "cái bàn"], [237, "", "テープレコーダー", "máy ghi âm"], [238, "手紙", "てがみ", "thư"], [239, "出口", "でぐち", "cửa ra, lối ra"], [240, "", "テスト", "kiểm tra"], [241, "", "デパート", "cửa hàng bách hóa"], [242, "", "テレビ", "Tivi"], [243, "天気", "てんき", "thời tiết"], [244, "電気", "でんき", "điện, đèn điện"], [245, "電車", "でんしゃ", "tàu điện"], [246, "電話", "でんわ", "điện thoại"], [247, "戸", "と", "Cửa"], [248, "", "ドア", "Cửa"], [249, "", "トイレ", "nhà vệ sinh"], [250, "所", "ところ", "nơi, chỗ"], [251, "年", "とし", "năm"], [252, "図書館", "としょかん", "thư viện"], [253, "動物", "どうぶつ", "động vật"], [254, "時々", "ときどき", "thỉnh thoảng"], [255, "時計", "とけい", "đồng hồ"], [256, "隣", "となり", "bên cạnh"], [257, "友達", "ともだち", "bạn bè"], [258, "土曜日", "どようび", "Thứ bảy"], [259, "鳥", "とり", "con chim"], [260, "とり肉", "とりにく", "thịt gà"], [261, "", "ナイフ", "dao"], [262, "中", "なか", "trong"], [263, "夏", "なつ", "mùa hè"], [264, "夏休み", "なつやすみ", "kỳ nghỉ hè"], [265, "七つ", "ななつ", "bảy cái ( đếm vật nói chung)"], [266, "名前", "なまえ", "tên"], [267, "二", "に", "hai"], [268, "肉", "にく", "thịt"], [269, "西", "にし", "phía Tây"], [270, "日曜日", "にちようび", "Chủ Nhật"], [271, "荷物", "にもつ", "hành lý, đồ đạc"], [272, "", "ニュース", "tin tức"], [273, "庭", "にわ", "vườn"], [274, "", "ネクタイ", "cà vạt, cà vạt"], [275, "猫", "ねこ", "mèo"], [276, "飲み物", "のみもの", "đồ uống"], [277, "歯", "は", "răng"], [278, "", "パーティー", "tiệc"], [279, "灰皿", "はいざら", "gạt tàn thuốc"], [280, "葉書", "はがき", "bưu thiếp"], [281, "箱", "はこ", "cái hộp"], [282, "橋", "はし", "cầu"], [283, "箸", "はし", "đũa"], [284, "", "バス", "xe buýt"], [285, "", "バター", "bơ"], [286, "二十歳", "はたち,にじゅっさい", "20 tuổi"], [287, "八", "はち", "tám"], [288, "二十日", "はつか", "ngày 20, 20 ngày"], [289, "花", "はな", "hoa"], [290, "鼻", "はな", "mũi"], [291, "話", "はなし", "câu chuyện"], [292, "春", "はる", "mùa xuân"], [293, "半", "はん", "một nửa"], [294, "晩", "ばん", "buổi tối"], [295, "", "パン", "bánh mì"], [296, "", "ハンカチ", "khăn tay"], [297, "番号", "ばんごう", "số"], [298, "晩御飯", "ばんごはん", "bữa ăn tối"], [299, "半分", "はんぶん", "một nửa"], [300, "東", "ひがし", "phía Đông"], [301, "飛行機", "ひこうき", "máy bay"], [302, "左", "ひだり", "phía bên tay trái"], [303, "人", "ひと", "người"], [304, "一つ", "ひとつ", "một cái ( đếm vật nói chung )"], [305, "一月", "いちがつ", "tháng 1"], [306, "一人", "ひとり", "một người"], [307, "百", "ひゃく", "trăm"], [308, "病院", "びょういん", "bệnh viện"], [309, "病気", "びょうき", "bệnh"], [310, "昼", "ひる", "buổi trưa, ban ngày"], [311, "昼ご飯", "ひるごはん", "ăn trưa"], [312, "", "フィルム", "cuộn phim"], [313, "封筒", "ふうとう", "phong bì"], [314, "", "プール", "hồ bơi"], [315, "", "フォーク", "dĩa"], [316, "服", "ふく", "quần áo"], [317, "二つ", "ふたつ", "hai cái ( đếm vật nói chung)"], [318, "豚肉", "ぶたにく", "thịt lợn"], [319, "二人", "ふたり", "hai người"], [320, "二日", "ふつか", "hai ngày, ngày mồng 2"], [321, "冬", "ふゆ", "mùa đông"], [322, "文章", "ぶんしょう", "câu văn, đoạn văn"], [323, "", "ページ", "trang"], [324, "", "ベッド", "cái giường"], [325, "", "ペット", "thú cưng"], [326, "部屋", "へや", "căn phòng"], [327, "辺", "へん", "khu vực"], [328, "", "ペン", "bút"], [329, "帽子", "ぼうし", "mũ"], [330, "", "ボールペン", "bút bi"], [331, "", "ポケット", "túi ( áo, quần)"], [332, "", "ボタン", "nút"], [333, "", "ホテル", "khách sạn"], [334, "本", "ほん", "cuốn sách"], [335, "本棚", "ほんだな", "giá sách"], [336, "本当", "ほんとう", "sự thật"], [337, "毎朝", "まいあさ", "mỗi buổi sáng"], [338, "毎月", "まいげつ/まいつき", "mỗi tháng"], [339, "毎週", "まいしゅう", "mỗi tuần"], [340, "毎日", "まいにち", "mỗi ngày"], [341, "毎年", "まいねん/まいとし", "mỗi năm"], [342, "毎晩", "まいばん", "mỗi tối"], [343, "前", "まえ", "trước"], [344, "町", "まち", "thị xã, thành phố"], [345, "窓", "まど", "cửa sổ"], [346, "万", "まん", "vạn ( mười nghìn)"], [347, "万年筆", "まんねんひつ", "bút mực"], [348, "右", "みぎ", "bên phải"], [349, "水", "みず", "nước"], [350, "店", "みせ", "cửa hàng, cửa tiệm"], [351, "道", "みち", "đường phố"], [352, "三つ", "みっつ", "ba cái ( đếm đồ vật nói chung)"], [353, "緑", "みどり", "màu xanh lá cây"], [354, "皆さん", "みなさん", "tất cả mọi người"], [355, "南", "みなみ", "phía Nam"], [356, "耳", "みみ", "tai"], [357, "", "みんな", "tất cả"], [358, "向こう", "むこう", "phía bên kia"], [359, "六つ", "むっつ", "sáu cái ( đếm đồ vật nói chung)"], [360, "村", "むら", "làng"], [361, "目", "め", "mắt"], [362, "", "メートル", "mét"], [363, "眼鏡", "めがね", "kính"], [364, "もう一度", "もういちど", "một lần nữa"], [365, "木曜日", "もくようび", "Thứ năm"], [366, "物", "もの", "đồ vật"], [367, "門", "もん", "cổng, cửa"], [368, "問題", "もんだい", "vấn đề"], [369, "八百屋", "やおや", "cửa hàng rau"], [370, "野菜", "やさい", "rau"], [371, "休み", "やすみ", "nghỉ, nghỉ ngơi"], [372, "八つ", "やっつ", "tám cái( đếm vật nói chung)"], [373, "山", "やま", "núi"], [374, "夕方", "ゆうがた", "chiều tối"], [375, "夕飯", "ゆうはん", "bữa ăn tối"], [376, "郵便局", "ゆうびんきょく", "bưu điện"], [377, "", "ゆうべ", "đêm qua"], [378, "洋服", "ようふく", "quần áo kiểu phương Tây"], [379, "横", "よこ", "bên cạnh, bên, chiều rộng"], [380, "四つ", "よっつ", "bốn cái ( đếm đồ vật nói chung )"], [381, "夜", "よる", "buổi tối, ban đêm"], [382, "来月", "らいげつ", "tháng sau"], [383, "来週", "らいしゅう", "tuần sau"], [384, "来年", "らいねん", "năm sau"], [385, "", "ラジオ", "radio"], [386, "", "ラジカセ / ラジオカセット", "đài cassette"], [387, "留学生", "りゅうがくせい", "du học sinh"], [388, "両親", "りょうしん", "bố mẹ"], [389, "料理", "りょうり", "nấu ăn, món ăn"], [390, "旅行", "りょこう", "du lịch"], [391, "", "ゼロ", "số 0"], [392, "冷蔵庫", "れいぞうこ", "tủ lạnh"], [393, "", "レストラン", "nhà hàng"], [394, "廊下", "ろうか", "hành lang"], [395, "六", "ろく", "sáu"], [396, "", "ワイシャツ", "áo sơ mi"], [397, "私", "わたくし", "tôi( khiêm nhường ngữ)"], [398, "私", "わたし", "Tôi"], [399, "会う", "あう", "Gặp mặt"], [400, "開く", "あく", "mở ( tự động từ)"], [401, "開ける", "あける", "mở (tha động từ)"], [402, "上げる", "あげる", "Nâng lên, tăng lên"], [403, "遊ぶ", "あそぶ", "Chơi"], [404, "浴びる", "あびる", "tắm ( vòi hoa sen)"], [405, "洗う", "あらう", "rửa"], [406, "", "ある", "Có ( dùng cho đồ vật, vật vô tri vô giác)"], [407, "歩く", "あるく", "đi bộ"], [408, "", "いる", "có (được sử dụng cho người và động vật)"], [409, "要る", "いる", "cần"], [410, "入れる", "いれる", "Cho vào, đưa vào"], [411, "歌う", "うたう", "hát"], [412, "生まれる", "うまれる", "được sinh ra"], [413, "売る", "うる", "bán"], [414, "教える", "おしえる", "dạy, chỉ cho biết"], [415, "覚える", "おぼえる", "nhớ"], [416, "降りる", "おりる", "xuống"], [417, "終る", "おわる", "kết thúc"], [418, "買う", "かう", "mua"], [419, "返す", "かえす", "trả lại"], [420, "帰る", "かえる", "về"], [421, "", "かかる", "mất, tốn( thời gian, tiền bạc…)"], [422, "書く", "かく", "viết"], [423, "貸す", "かす", "cho vay, cho mượn"], [424, "借りる", "かりる", "vay, mượn"], [425, "消える", "きえる", "biến mất, tắt ( điện)"], [426, "聞く", "きく", "nghe, hỏi"], [427, "切る", "きる", "cắt"], [428, "着る", "きる", "mặc( đưa từ trên xuống như áo…)"], [429, "曇る", "くもる", "có mây, nhiều mây"], [430, "来る", "くる", "đến"], [431, "答える", "こたえる", "trả lời"], [432, "", "コピーする", "copy, sao chép"], [433, "困る", "こまる", "bối rối, khó khăn, rắc rối"], [434, "散歩", "さんぽする", "đi dạo"], [435, "閉まる", "しまる", "đóng ( tự động từ)"], [436, "閉める", "しめる", "đóng ( tha động từ)"], [437, "知る", "しる", "biết"], [438, "吸う", "すう", "hút"], [439, "住む", "すむ", "sống"], [440, "", "する", "làm, chơi, tổ chức…"], [441, "座る", "すわる", "ngồi"], [442, "掃除する", "そうじする", "dọn dẹp"], [443, "出す", "だす", "lấy ra, nộp, gửi (thư)"], [444, "立つ", "たつ", "đứng"], [445, "頼む", "たのむ", "nhờ"], [446, "食べる", "たべる", "ăn"], [447, "使う", "つかう", "sử dụng"], [448, "疲れる", "つかれる", "mệt mỏi"], [449, "着く", "つく", "đến"], [450, "作る", "つくる", "làm, chế tạo, nấu ăn"], [451, "", "つける", "bật"], [452, "勤める", "つとめる", "làm việc"], [453, "出かける", "でかける", "đi ra ngoài"], [454, "出る", "でる", "ra, rời khỏi, xuất hiện"], [455, "飛ぶ", "とぶ", "bay, nhảy"], [456, "止まる", "とまる", "dừng lại ( tự động từ)"], [457, "止める", "とめる", "Đỗ, đậu ( xe, đài..) ( Tha động từ)"], [458, "取る", "とる", "lấy ( muối…)"], [459, "撮る", "とる", "chụp ảnh hoặc quay phim"], [460, "鳴く", "なく", "kêu , hót"], [461, "無くす", "なくす", "làm mất, đánh mất"], [462, "習う", "ならう", "học"], [463, "並ぶ", "ならぶ", "xếp hàng, ngang bằng"], [464, "並べる", "ならべる", "sắp xếp, bố trí"], [465, "", "なる", "trở nên, trở thành"], [466, "脱ぐ", "ぬぐ", "cởi"], [467, "寝る", "ねる", "đi ngủ, ngủ"], [468, "登る", "のぼる", "leo lên"], [469, "飲む", "のむ", "uống"], [470, "乗る", "のる", "lên ( tàu, xe…) cưỡi ngựa"], [471, "入る", "はいる", "vào, đi vào"], [472, "履く", "はく", "mặc, đi ( từ dưới lên)"], [473, "始まる", "はじまる", "được bắt đầu ( tự động từ)"], [474, "始める", "はじめる", "bắt đầu( tha động từ)"], [475, "走る", "はしる", "chạy"], [476, "働く", "はたらく", "làm việc"], [477, "話す", "はなす", "nói chuyện"], [478, "貼る", "はる", "dán"], [479, "晴れる", "はれる", "có nắng, thời tiết đẹp"], [480, "引く", "ひく", "kéo"], [481, "弾く", "ひく", "chơi ( nhạc cụ)"], [482, "吹く", "ふく", "thổi"], [483, "降る", "ふる", "rơi (mưa, tuyết)"], [484, "勉強する", "べんきょうする", "học"], [485, "曲る", "まがる", "rẽ, cong"], [486, "待つ", "まつ", "chờ đợi"], [487, "右", "みぎ", "bên phải"], [488, "見せる", "みせる", "cho xem"], [489, "見る", "みる", "xem, nhìn, trông"], [490, "持つ", "もつ", "mang, cầm"], [491, "休む", "やすむ", "nghỉ, nghỉ ngơi"], [492, "", "やる", "làm"], [493, "呼ぶ", "よぶ", "gọi"], [494, "読む", "よむ", "đọc"], [495, "練習", "れんしゅうする", "thực hành, luyện tập"], [496, "分かる", "わかる", "hiểu, nắm được"], [497, "忘れる", "わすれる", "quên"], [498, "渡す", "わたす", "đưa cho"], [499, "渡る", "わたる", "đi qua, băng qua"]]
+</script>
+<script>
+const vocab = JSON.parse(document.getElementById('vocabData').textContent);
+
+let currentIndex = 0;
+let logList = [];
+let currentMode = 'normal'; // 'normal' | 'kanji' | 'viet'
+
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach((btn, i) => {
+    const modes = ['normal', 'kanji', 'viet'];
+    btn.classList.toggle('active-mode', modes[i] === mode);
+  });
+  logList = [];
+  renderLog();
+  showCard();
+
+  const labels = {
+    normal: '📖 Chế độ bình thường',
+    kanji: '漢字 → điền Hiragana',
+    viet: 'VN → điền Hiragana'
+  };
+  showToast('✅ ' + labels[mode]);
+}
+
+function showCard() {
+  if (!vocab.length) return;
+  const row = vocab[currentIndex];
+
+  document.getElementById('progressText').textContent = `${currentIndex + 1} / ${vocab.length}`;
+  document.getElementById('startInput').value = currentIndex + 1;
+
+  const isCheck = currentMode !== 'normal';
+
+  document.getElementById('normalCardArea').style.display = isCheck ? 'none' : 'block';
+  document.getElementById('checkCardArea').style.display = isCheck ? 'block' : 'none';
+
+  if (!isCheck) {
+    // Normal mode
+    document.getElementById('kanjiDisplay').textContent = row[1];
+    document.getElementById('hiraDisplay').textContent = row[2];
+    const m = document.getElementById('meaningDisplay');
+    m.textContent = 'Nhấn "Đáp Án" để xem nghĩa ❓';
+    m.className = 'meaning-text meaning-hidden';
+    document.getElementById('answerBtn').textContent = '💡 ĐÁP ÁN';
+  } else {
+    // Check mode: show hint, clear input
+    const hintLabel = document.getElementById('checkHintLabel');
+    const hintValue = document.getElementById('checkHintValue');
+
+    if (currentMode === 'kanji') {
+      hintLabel.textContent = '漢字 · Kanji';
+      hintValue.textContent = row[1];
+      hintValue.className = 'check-hint-value';
+    } else {
+      hintLabel.textContent = '🇻🇳 Tiếng Việt';
+      hintValue.textContent = row[3];
+      hintValue.className = 'check-hint-value vi-hint';
+    }
+
+    document.getElementById('checkInput').value = '';
+    document.getElementById('checkResult').textContent = '—';
+    document.getElementById('checkResult').className = 'check-result result-blank';
+    document.getElementById('checkAnswerReveal').style.display = 'none';
+    document.getElementById('checkAnswerValue').textContent = row[2];
+    document.getElementById('answerBtn').textContent = '💡 ĐÁP ÁN';
+  }
+}
+
+function checkAnswer() {
+  const row = vocab[currentIndex];
+  const input = document.getElementById('checkInput').value.trim();
+  const resultEl = document.getElementById('checkResult');
+  const correct = row[2];
+
+  if (!input) {
+    resultEl.textContent = '—';
+    resultEl.className = 'check-result result-blank';
+    return;
+  }
+
+  if (input === correct) {
+    resultEl.textContent = '✓';
+    resultEl.className = 'check-result result-true';
+  } else {
+    resultEl.textContent = '✗';
+    resultEl.className = 'check-result result-false';
+  }
+}
+
+function showAnswer() {
+  const row = vocab[currentIndex];
+
+  if (currentMode === 'normal') {
+    const m = document.getElementById('meaningDisplay');
+    m.textContent = row[3];
+    m.className = 'meaning-text';
+  } else {
+    // Show correct hiragana in check mode
+    const reveal = document.getElementById('checkAnswerReveal');
+    reveal.style.display = 'flex';
+    document.getElementById('checkAnswerValue').textContent = row[2];
+  }
+
+  // Log
+  const already = logList.find(x => x[1] === row[1]);
+  if (!already) {
+    logList.push([...row]);
+    renderLog();
+  }
+}
+
+function nextCard() {
+  if (currentIndex < vocab.length - 1) {
+    currentIndex++;
+    showCard();
+  } else {
+    showToast('🎉 Đã hết danh sách! Bạn thật tuyệt!');
+    currentIndex = 0;
+    showCard();
+  }
+}
+
+function prevCard() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    showCard();
+  } else {
+    showToast('⚠️ Đây là từ đầu tiên rồi!');
+  }
+}
+
+function startFromIndex() {
+  const val = parseInt(document.getElementById('startInput').value);
+  if (isNaN(val) || val < 1 || val > vocab.length) {
+    showToast(`⚠️ Nhập số từ 1 đến ${vocab.length}`);
+    return;
+  }
+  currentIndex = val - 1;
+  logList = [];
+  renderLog();
+  showCard();
+  showToast(`✅ Bắt đầu từ từ số ${val}`);
+}
+
+function renderLog() {
+  const wrap = document.getElementById('logTableWrap');
+  document.getElementById('logCount').textContent = `${logList.length} từ`;
+  if (!logList.length) {
+    wrap.innerHTML = '<div class="log-empty">Chưa có từ nào — nhấn Đáp Án để ghi lại 👆</div>';
+    return;
+  }
+  let html = `<table class="log-table">
+    <thead><tr>
+      <th style="width:36px">STT</th>
+      <th>Kanji</th>
+      <th>Hiragana</th>
+      <th>Nghĩa tiếng Việt</th>
+    </tr></thead><tbody>`;
+  logList.forEach((row, i) => {
+    html += `<tr>
+      <td class="td-no">${i+1}</td>
+      <td class="td-kanji">${row[1]}</td>
+      <td class="td-hira">${row[2]}</td>
+      <td>${row[3]}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+function renderVocabTable() {
+  const tbody = document.getElementById('vocabTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = vocab.map((row, i) => `
+    <tr onclick="jumpToCard(${i})" id="vrow-${i}" class="${i === currentIndex ? 'current-row' : ''}">
+      <td class="vt-no">${row[0]}</td>
+      <td class="vt-kanji">${row[1]}</td>
+      <td class="vt-hira">${row[2]}</td>
+      <td class="vt-meaning">${row[3]}</td>
+    </tr>`).join('');
+}
+
+function jumpToCard(i) {
+  currentIndex = i;
+  logList = [];
+  renderLog();
+  renderVocabTable();
+  showCard();
+  document.getElementById('dataBody').classList.remove('open');
+  document.getElementById('dataArrow').textContent = '▼';
+  showToast(`✅ Đã nhảy đến từ số ${vocab[i][0]}`);
+}
+
+function switchTab(tab) {
+  document.getElementById('panelVocab').classList.toggle('active', tab === 'vocab');
+  document.getElementById('panelEdit').classList.toggle('active', tab === 'edit');
+  document.getElementById('tab1').classList.toggle('active', tab === 'vocab');
+  document.getElementById('tab2').classList.toggle('active', tab === 'edit');
+}
+
+function loadData() {
+  const raw = document.getElementById('dataInput').value.trim();
+  if (!raw) { showToast('⚠️ Không có dữ liệu!'); return; }
+  const lines = raw.split('\n').filter(l => l.trim());
+  const parsed = [];
+  for (let i = 0; i < lines.length; i++) {
+    const parts = lines[i].split('|').map(s => s.trim());
+    if (parts.length < 4) { showToast(`⚠️ Dòng ${i+1} thiếu dữ liệu`); return; }
+    parsed.push([parseInt(parts[0]) || i+1, parts[1], parts[2], parts[3]]);
+  }
+  vocab.length = 0;
+  parsed.forEach(r => vocab.push(r));
+  currentIndex = 0;
+  logList = [];
+  renderLog();
+  renderVocabTable();
+  showCard();
+  toggleData();
+  showToast(`✅ Đã tải ${vocab.length} từ vựng!`);
+}
+
+function toggleData() {
+  const body = document.getElementById('dataBody');
+  const arrow = document.getElementById('dataArrow');
+  body.classList.toggle('open');
+  arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+}
+
+
+function toggleLog() {
+  const body = document.getElementById('logBody');
+  const arrow = document.getElementById('logArrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+window.onload = function() {
+  showCard();
+  renderVocabTable();
+  var el = document.getElementById('dataInput');
+  if (el) el.value = vocab.map(r => r.join('|')).join('\n');
+};
+</script>
+</body>
+</html>
